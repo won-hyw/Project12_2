@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         editCountResult = findViewById(R.id.edit_count_result);
         Button btnInit = findViewById(R.id.btn_init);
         Button btnInput = findViewById(R.id.btn_input);
+        Button btnEdit = findViewById(R.id.btn_edit);
+        Button btnDelete = findViewById(R.id.btn_delete);
         Button btnSearch = findViewById(R.id.btn_search);
 
         dbHelper = new MyDBHelper(this);
@@ -48,6 +50,24 @@ public class MainActivity extends AppCompatActivity {
                 db.execSQL("insert into groupTB values('"+ editName.getText().toString() +"', "+ editCount.getText().toString() +");");
                 db.close();
                 Toast.makeText(getApplicationContext(), "정상적으로 행이 삽입 되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db = dbHelper.getWritableDatabase();
+                db.execSQL("update groupTB set count="+ editCount.getText().toString() +" where name = '"+ editName.getText().toString() +"';");
+                db.close();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db = dbHelper.getWritableDatabase();
+                db.execSQL("delete from groupTB where name='"+ editName.getText().toString() +"';");
+                db.close();
             }
         });
 
